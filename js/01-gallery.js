@@ -24,7 +24,7 @@ function onClick(event) {
   }
 
   const instance = basicLightbox.create(`
-    <img src="${event.target.dataset.source}" width="100vw" height="600">
+    <img src="${event.target.dataset.source}" width="800" height="600">
 `);
   instance.show();
 
@@ -35,5 +35,6 @@ function onClick(event) {
     if (event.code === ESC_KEY_CODE) {
       instance.close();
     }
+    window.removeEventListener('keydown', onEscapePress);
   }
 }
