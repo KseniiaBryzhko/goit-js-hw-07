@@ -19,22 +19,29 @@ gallery.addEventListener('click', onClick);
 
 function onClick(event) {
   event.preventDefault();
-  if (event.target.classList.contains('gallery')) {
+  if (event.target.nodeName !== 'IMG') {
     return;
   }
 
-  const instance = basicLightbox.create(`
+  const instance = basicLightbox.create(
+    `
     <img src="${event.target.dataset.source}" width="800" height="600">
-`);
+`,
+    {
+      onShow: instance => {
+        window.addEventListener('keydown', onEscapePress);
+      },
+      onClose: instance => {
+        window.removeEventListener('keydown', onEscapePress);
+      },
+    }
+  );
   instance.show();
-
-  window.addEventListener('keydown', onEscapePress);
 
   function onEscapePress(event) {
     const ESC_KEY_CODE = 'Escape';
     if (event.code === ESC_KEY_CODE) {
       instance.close();
     }
-    window.removeEventListener('keydown', onEscapePress);
   }
 }
